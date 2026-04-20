@@ -2,6 +2,7 @@ package ucu.edu.aed.tda;
 
 import java.util.function.Consumer;
 
+
 /**
  * Define un Tipo de Dato Abstracto (TDA) Árbol Binario genérico.
  *
@@ -25,6 +26,12 @@ public interface TDAArbolBinario<T> {
      * si no existe ninguno
      */
     T buscar(Comparable<T> predicate);
+
+    /**
+     * Busca una clave y devuelve la cantidad de comparaciones realizadas.
+     * Si la clave no existe, devuelve el contador con signo negativo.
+     */
+    int buscarConContador(Comparable<T> criterioBusqueda);
 
     /**
      * Retorna el elemento raíz del árbol.
@@ -66,6 +73,11 @@ public interface TDAArbolBinario<T> {
     void inOrder(Consumer<T> consumidor);
 
     /**
+     * Devuelve los datos del arbol recorridos en inorden.
+     */
+    String inOrden();
+
+    /**
      * Recorre el árbol en pre-order
      * {@snippet :
      * // ejemplo de uso
@@ -88,6 +100,11 @@ public interface TDAArbolBinario<T> {
      *}
      */
     void postOrder(Consumer<T> consumidor);
+
+    /**
+     * Devuelve los datos del arbol recorridos en postorden.
+     */
+    String postOrden();
 
     /**
      * Devuelve true si el árbol es vacío

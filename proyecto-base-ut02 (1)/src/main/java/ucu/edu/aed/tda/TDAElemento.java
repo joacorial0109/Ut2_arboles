@@ -1,63 +1,67 @@
 package ucu.edu.aed.tda;
 
 import java.util.function.Consumer;
-import java.util.function.Predicate;
+
 
 /**
- * Modela un nodo del árbol binario.
- * La implementación de esta estructura debe ser recursiva.
+ * Define un Tipo de Dato Abstracto (TDA) Árbol Binario genérico.
+ *
+ * <p>Un árbol binario es una estructura de datos jerárquica en la que cada nodo
+ * puede tener como máximo dos hijos: un hijo izquierdo y un hijo derecho.</p>
+ *
+ * <p>Esta interfaz proporciona operaciones para insertar, buscar, eliminar elementos,
+ * así como diferentes formas de recorrido del árbol (in-order, pre-order, post-order)
+ * y métodos para obtener información sobre la estructura del árbol.</p>
+ *
+ * @param <T> el tipo de los elementos almacenados en el árbol
  */
-public interface TDAElemento <T>{
-
+public interface TDAArbolBinario<T> {
     /**
-     * Asigna el nodo izquierdo del nodo actual. Puede ser nulo.
+     * Busca y retorna el primer elemento que cumple con el predicado dado.
+     *
+     * <p>El recorrido del árbol para la búsqueda queda sujeto a la implementación.</p>
+     *
+     * @param predicate el predicado que define el criterio de búsqueda
+     * @return el primer elemento que cumple el criterio, o {@code null}
+     * si no existe ninguno
      */
-    void setHijoIzquierdo(TDAElemento<T> hijoIzquierdo);
+    T buscar(Comparable<T> predicate);
 
     /**
-     * Asigna el nodo derecho del nodo actual. Puede ser nulo.
+     * Busca una clave y devuelve la cantidad de comparaciones realizadas.
+     * Si la clave no existe, devuelve el contador con signo negativo.
      */
-    void setHijoDerecho(TDAElemento<T> hijoDerecho);
+    int buscarConContador(Comparable<T> criterioBusqueda);
 
     /**
-     * Devuelve el hijo derecho del nodo actual. El valor es nulo si no tiene hijo derecho.
+     * Retorna el elemento raíz del árbol.
+     *
+     * @return el elemento raíz del árbol, o {@code null} si el árbol está vacío
      */
-    TDAElemento<T> getHijoIzquierdo();
+    TDAElemento<T> obtenerRaiz();
 
     /**
-     * Devuelve el hijo izquierdo del nodo actual. El valor es nulo si no tiene hijo izquierdo.
+     * Elimina el o los nodos según el criterio de búsqueda.
+     *
+     * @param criterioBusqueda el predicado que define qué elementos deben ser eliminados
+     * @return {@code true} si al menos un elemento fue eliminado;
+     * {@code false} en caso contrario
      */
-    TDAElemento<T> getHijoDerecho();
+    boolean eliminar(Comparable<T> criterioBusqueda);
 
     /**
-     * Actualiza el dato del nodo actual.
+     * Agrega un dato al árbol.
+     *
+     * <p>Si el dato ya existe en el árbol, no se agrega nuevamente.</p>
+     *
+     * @param dato el elemento a insertar
+     * @return {@code true} si el elemento fue agregado correctamente;
+     * {@code false} si el elemento ya existía y no fue agregado
      */
-    void setDato(T dato);
+    boolean insertar(Comparable<T> dato);
 
     /**
-     * devuelve el dato del nodo actual.
-     */
-    T getDato();
-
-    /**
-     * Busca un nodo por un criterio de búsqueda.
-     * Si no se encuentra, retorna nulo.
-     */
-    TDAElemento<T> buscar(Comparable<T> criterioBusqueda);
-
-    /**
-     * Elimina un nodo del árbol según el criterio de búsqueda.
-     * Si se encuentra, se retorna el nodo borrado. En otro caso retornar null.
-     */
-    TDAElemento<T> eliminar(Comparable<T> criterioBusqueda);
-
-    /**
-     * Agrega un nuevo elemento al árbol
-     * Si el nuevoDato existe, no se agrega
-     */
-    boolean insertar(Comparable<T> nuevoDato);
-
-    /**
+     * Recorre el árbol en in-order
      * {@snippet :
      * // ejemplo de uso
      * elemento.inOrder(dato ->{
@@ -66,9 +70,15 @@ public interface TDAElemento <T>{
      * });
      *}
      */
-    void inOrder(Consumer<TDAElemento<T>> consumidor);
+    void inOrder(Consumer<T> consumidor);
 
     /**
+     * Devuelve los datos del arbol recorridos en inorden.
+     */
+    String inOrden();
+
+    /**
+     * Recorre el árbol en pre-order
      * {@snippet :
      * // ejemplo de uso
      * elemento.preOrder(dato ->{
@@ -77,9 +87,10 @@ public interface TDAElemento <T>{
      * });
      *}
      */
-    void preOrder(Consumer<TDAElemento<T>> consumidor);
+    void preOrder(Consumer<T> consumidor);
 
     /**
+     * Recorre el árbol en post-order
      * {@snippet :
      * // ejemplo de uso
      * elemento.postOrder(dato ->{
@@ -88,36 +99,30 @@ public interface TDAElemento <T>{
      * });
      *}
      */
-    void postOrder(Consumer<TDAElemento<T>> consumidor);
+    void postOrder(Consumer<T> consumidor);
 
     /**
-     * retornar true si el nodo es hoja
+     * Devuelve los datos del arbol recorridos en postorden.
      */
-    boolean esHoja();
+    String postOrden();
 
     /**
-     * retorna la cantidad de nodos que son hijas
+     * Devuelve true si el árbol es vacío
+     */
+    boolean esVacio();
+
+    /**
+     * Devuelve la cantidad de nodos del árbol
+     **/
+    int cantidadNodos();
+
+    /**
+     * Devuelve la cantidad de nodos que son hojas
      */
     int cantidadHojas();
 
     /**
-     * retorna la cantidad de nodos que no son hojas
+     * Devuelve la cantidad de nodos que NO son hojas
      */
     int cantidadNodosInternos();
-
-    /**
-     * retorna la cantidad de nodos que los compone
-     */
-    int cantidadNodos();
-
-    /**
-     * retorna la altura de este nodo
-     */
-    int altura();
-
-    /**
-     * retornar el nivel relativo del nodo que coincide con el criterio de búsqueda
-     * si no se encuentra, retorna -1
-     */
-    int obtenerNivel(Comparable<T> criterioBusqueda);
 }
